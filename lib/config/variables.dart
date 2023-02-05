@@ -4,6 +4,5 @@ abstract class Variables {
   //   defaultValue: '',
   // );
 
-  static const String firebaseUrl =
-      'https://tmpdart-default-rtdb.europe-west1.firebasedatabase.app/todo.json';
+  static const String firebaseUrl = '__YOUR_FIREBASE_URL__';
 }
