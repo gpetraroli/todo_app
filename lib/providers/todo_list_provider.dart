@@ -21,8 +21,13 @@ class TodoListProvider extends ChangeNotifier {
     // TODO: handle error
     final data = await _fireBaseService.fetchTodos;
 
+    if (data == null) {
+      return;
+    }
+    
     data.forEach((key, value) {
-      _todoList.add(TodoModel(
+      _todoList.add(TodoModel.withId(
+        id: key,
         title: value['title'],
         body: value['body'],
         date: DateTime.parse(value['date']),
@@ -33,15 +38,12 @@ class TodoListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> addTodoItem(TodoModel todoItem) async {
-    final success = await _fireBaseService.addTodoItem(todoItem);
+  void addTodoItem(TodoModel todoItem) async {
+    final id = await _fireBaseService.addTodoItem(todoItem);
+    todoItem.id = id;
 
-    if (success) {
-      _todoList.add(todoItem);
-      notifyListeners();
-    }
-
-    return success;
+    _todoList.add(todoItem);
+    notifyListeners();
   }
 
   void removeTodoItem(TodoModel todoItem) {

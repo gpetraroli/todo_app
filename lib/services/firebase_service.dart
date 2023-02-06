@@ -5,7 +5,7 @@ import '../config/variables.dart';
 import '../models/todo_model.dart';
 
 class FirebaseService {
-  Future<Map<String, dynamic>> get fetchTodos async {
+  Future<Map<String, dynamic>?> get fetchTodos async {
     final response = await http.get(Uri.parse(Variables.firebaseUrl));
 
     if (response.statusCode == 200) {
@@ -16,7 +16,7 @@ class FirebaseService {
     }
   }
 
-  Future<bool> addTodoItem(TodoModel todoItem) async {
+  Future<String> addTodoItem(TodoModel todoItem) async {
     final response = await http.post(Uri.parse(Variables.firebaseUrl),
         body: json.encode({
           'title': todoItem.title,
@@ -26,9 +26,18 @@ class FirebaseService {
         }));
 
     if (response.statusCode == 200) {
-      return true;
+      return json.decode(response.body)['name'];
     } else {
       throw Exception('Failed to add todo item');
+    }
+  }
+
+  Future<void> deleteTodoItem(String id) async {
+    final response = await http.delete(
+        Uri.parse('${Variables.firebaseUrl}/$id.json'));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete todo item');
     }
   }
 }

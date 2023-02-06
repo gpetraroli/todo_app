@@ -33,7 +33,7 @@ class TodoList extends StatelessWidget {
             itemCount: todoListProvider.todoList.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8),
                 child: TodoCard(todoListProvider.todoList[index]),
               );
             },

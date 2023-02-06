@@ -10,10 +10,26 @@ class TodoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 2,
-      child: InkWell(
-        onTap: () {},
+    return Dismissible(
+      key: Key(todoItem.id!),
+      onDismissed: (direction) {},
+      direction: DismissDirection.endToStart,
+      background: Container(
+        color: Colors.green,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20),
+        child: const Icon(Icons.check, color: Colors.white, size: 40),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(
+              color: todoItem.isDone ? Colors.green : Colors.red,
+              width: 5,
+            ),
+          ),
+        ),
+        width: double.infinity,
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(

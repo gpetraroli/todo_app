@@ -27,14 +27,9 @@ class _TodoFormState extends State<TodoForm> {
         ),
       );
 
-      success.then((value) {
-        if (value) {
-          Navigator.of(context).pop();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Todo added successfully')),
-          );
-        }
-      });
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Todo added successfully')));
     }
   }
 
