@@ -33,11 +33,27 @@ class FirebaseService {
   }
 
   Future<void> deleteTodoItem(String id) async {
-    final response = await http.delete(
-        Uri.parse('${Variables.firebaseUrl}/$id.json'));
+    final response = await http.delete(Uri.parse(
+        'https://tmpdart-default-rtdb.europe-west1.firebasedatabase.app/todo/$id.json'));
 
     if (response.statusCode != 200) {
       throw Exception('Failed to delete todo item');
+    }
+  }
+
+  Future<void> updateTodoItem(TodoModel todoItem) async {
+    final response = await http.patch(Uri.parse(
+        'https://tmpdart-default-rtdb.europe-west1.firebasedatabase.app/todo/${todoItem
+            .id}.json'),
+        body: json.encode({
+          'title': todoItem.title,
+          'body': todoItem.body,
+          'date': todoItem.date.toString(),
+          'isDone': todoItem.isDone.toString(),
+        }));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update todo item');
     }
   }
 }

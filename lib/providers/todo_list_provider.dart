@@ -24,7 +24,7 @@ class TodoListProvider extends ChangeNotifier {
     if (data == null) {
       return;
     }
-    
+
     data.forEach((key, value) {
       _todoList.add(TodoModel.withId(
         id: key,
@@ -48,6 +48,14 @@ class TodoListProvider extends ChangeNotifier {
 
   void removeTodoItem(TodoModel todoItem) {
     _todoList.remove(todoItem);
+    _fireBaseService.deleteTodoItem(todoItem.id!);
+    notifyListeners();
+  }
+
+  void updateTodoItem(TodoModel todoItem) {
+    _fireBaseService.updateTodoItem(todoItem);
+    _todoList[_todoList.indexWhere((element) => element.id == todoItem.id)] =
+        todoItem;
     notifyListeners();
   }
 }

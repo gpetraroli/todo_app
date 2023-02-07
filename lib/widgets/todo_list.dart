@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/widgets/todo_card.dart';
 
 import '../providers/todo_list_provider.dart';
+import '../widgets/todo_card.dart';
 
 class TodoList extends StatelessWidget {
+  var _showTodoCompleted;
+
+  TodoList(this._showTodoCompleted);
+
   @override
   Widget build(BuildContext context) {
     final todoListProvider = Provider.of<TodoListProvider>(context);
+    final todoNotDone = todoListProvider.todoList
+        .where((todo) => todo.isDone == _showTodoCompleted)
+        .toList();
 
-    return todoListProvider.todoList.isEmpty
+    return todoNotDone.isEmpty
         ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -20,21 +27,21 @@ class TodoList extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pushNamed('/add-todo');
                   },
-                  child: const Text('Add a todo'),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 20),
                   ),
+                  child: const Text('Add a todo'),
                 ),
               ],
             ),
           )
         : ListView.builder(
-            itemCount: todoListProvider.todoList.length,
+            itemCount: todoNotDone.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: const EdgeInsets.all(8),
-                child: TodoCard(todoListProvider.todoList[index]),
+                child: TodoCard(todoNotDone[index]),
               );
             },
           );

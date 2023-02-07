@@ -8,24 +8,37 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
         appBar: AppBar(
-          title: const Text('Todo'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(AddTodoScreen.routeName);
-              },
-              icon: const Icon(Icons.add),
-            ),
-          ],
-        ),
-        body: TodoList(),
+            title: const Text('Todo'),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(AddTodoScreen.routeName);
+                },
+                icon: const Icon(Icons.add),
+              ),
+            ],
+            bottom: const TabBar(
+              tabs: [
+                Tab(
+                  text: 'Todo',
+                ),
+                Tab(
+                  text: 'Completed',
+                ),
+              ],
+            )),
+        body: TabBarView(children: [TodoList(false), TodoList(true)]),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).pushNamed(AddTodoScreen.routeName);
           },
           child: const Icon(Icons.add),
-        ));
+        ),
+      ),
+    );
   }
 }
